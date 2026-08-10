@@ -1,0 +1,61 @@
+{
+  "name": "hikari-companion",
+  "version": "0.1.0",
+  "private": true,
+  "description": "An open-source, character-first desktop AI companion.",
+  "license": "MIT",
+  "author": "Hikari contributors",
+  "packageManager": "pnpm@11.16.0",
+  "main": "electron/main.cjs",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -k \"vite --host 127.0.0.1 --strictPort\" \"wait-on http://127.0.0.1:5173 && electron . --disable-gpu\"",
+    "dev:web": "vite --host 127.0.0.1",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc -b --pretty false",
+    "dist:win": "pnpm build && electron-builder --win nsis"
+  },
+  "dependencies": {
+    "lucide-react": "^0.468.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.0.5",
+    "concurrently": "^10.0.4",
+    "electron": "^43.3.0",
+    "electron-builder": "^26.15.3",
+    "typescript": "^5.9.3",
+    "vite": "^8.2.1",
+    "vitest": "^4.1.10",
+    "wait-on": "^9.1.0"
+  },
+  "build": {
+    "appId": "dev.hikari.companion",
+    "productName": "Hikari",
+    "asar": true,
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis",
+      "artifactName": "Hikari-${version}-Setup.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    }
+  }
+}
